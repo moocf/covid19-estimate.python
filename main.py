@@ -74,6 +74,9 @@ def curve(xs, a, b, c, d, e, f):
   s1 = gaussian(xs, d, e, f)
   return s0 + s1
 
+def loss(ys, xs, a, b, c, d, e, f):
+  return np.sum((ys - curve(xs, a, b, c, d, e, f)) ** 2)
+
 
 def main(xs, ys, fn, ps):
   plt.figure(figsize=(6, 4))
@@ -93,6 +96,7 @@ rows = average_value(rows, 14)
 ys = list(rows['Value'])
 xs = list(range(len(ys)))
 ps = np.asarray([5000, 60, 2, 5000, 70, 2])
+print(loss(ys, xs, ps[0], ps[1], ps[2], ps[3], ps[4], ps[5]))
 
 main(xs, ys, curve, ps)
 ps, ps_cov = optimize.curve_fit(curve, xs, ys, p0=ps)
