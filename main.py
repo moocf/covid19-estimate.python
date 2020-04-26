@@ -5,22 +5,6 @@ import pandas as pd
 import numpy as np
 import math
 
-# fitting corona data:
-# italy: total cases
-
-# estimating curve:
-# effect of public:    a1*tanh(f1*t + p1)
-# ...       doctors:   a2*tanh(f2*t + p2)
-# ...       engineers: a3*tanh(f3*t + p3)
-# total cases = sum of effects
-
-# loss function:
-# mean square error
-
-# optimize in batches with:
-# - gradient descent
-# - newtons method
-
 
 def csv_read(file):
   rows = pd.read_csv(file, comment='#')
