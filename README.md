@@ -17,61 +17,61 @@ functions), representing 2 possible effects.
 
 ## india
 
-![china-1](docs/china-1.png)
+![india-1](docs/india-1.png)
 
-![china-2](docs/china-2.png)
+![india-2](docs/india-2.png)
 
-![china-3](docs/china-3.png)
+![india-3](docs/india-3.png)
 
 
 
 ## italy
 
-![china-1](docs/china-1.png)
+![italy-1](docs/italy-1.png)
 
-![china-2](docs/china-2.png)
+![italy-2](docs/italy-2.png)
 
-![china-3](docs/china-3.png)
+![italy-3](docs/italy-3.png)
 
 
 
 ## skorea
 
-![china-1](docs/china-1.png)
+![skorea-1](docs/skorea-1.png)
 
-![china-2](docs/china-2.png)
+![skorea-2](docs/skorea-2.png)
 
-![china-3](docs/china-3.png)
+![skorea-3](docs/skorea-3.png)
 
 
 
 ## spain
 
-![china-1](docs/china-1.png)
+![spain-1](docs/spain-1.png)
 
-![china-2](docs/china-2.png)
+![spain-2](docs/spain-2.png)
 
-![china-3](docs/china-3.png)
+![spain-3](docs/spain-3.png)
 
 
 
 ## uk
 
-![china-1](docs/china-1.png)
+![uk-1](docs/uk-1.png)
 
-![china-2](docs/china-2.png)
+![uk-2](docs/uk-2.png)
 
-![china-3](docs/china-3.png)
+![uk-3](docs/uk-3.png)
 
 
 
 ## us
 
-![china-1](docs/china-1.png)
+![us-1](docs/us-1.png)
 
-![china-2](docs/china-2.png)
+![us-2](docs/us-2.png)
 
-![china-3](docs/china-3.png)
+![us-3](docs/us-3.png)
 
 
 
