@@ -29,57 +29,6 @@ def csv_read(file):
   return rows
 
 
-def curve(x, cs):
-  n, s = cs.shape[0], 0
-  for i in range(0, n, 3):
-    a, b, c = cs[i : i+3]
-    s += a * math.exp(-((x-b)**2)/(2*c*c))
-  return s
-
-
-def loss(cs, y):
-  e = 0
-  for x in range(0, len(y)):
-    e += (y[x] - curve(cs, x)) ** 2
-  return e
-
-
-def derivative_at(fn, cs, x, i, dc=1e-4):
-  y0 = fn(cs, x)
-  cs = cs.copy()
-  cs[i] = cs[i]+dc
-  y1 = fn(cs, x)
-  return (y1 - y0) / dc
-
-
-def gradient_at(fn, cs, x):
-  n = cs.shape[0]
-  a = np.zeros(n)
-  for i in range(n):
-    a[i] = derivative_at(fn, cs, x, i)
-  return a
-
-
-def gradient_descent(cs, y, l, max_iter=10000):
-  for i in range(max_iter):
-    print('loss', loss(cs, y), cs)
-    dcs = -l * gradient_at(loss, cs, y)
-    # if np.sum(np.abs(dcs)) < 1e-8: break
-    cs  = cs + dcs
-  return cs
-
-
-def main(actuals, effects):
-  x = actuals
-  fig = plt.figure()
-  plt.plot(range(0, len(x)), x[::])
-  x = np.repeat(x, 2)
-  for i in range(0, len(x)):
-    x[i] = curve(effects, i)
-  plt.plot(range(0, len(x)), x[::])
-  plt.show()
-
-
 def filter_country(rows, country):
   is_country = rows['Country/Region'] == country
   return rows[is_country]
@@ -117,19 +66,34 @@ def average_value(rows, window=7):
   return rows
 
 
+def gaussian(xs, a, b, c):
+  return a * np.exp(-((xs-b)**2)/(2*c*c))
+
+def curve(xs, a, b, c, d, e, f):
+  s0 = gaussian(xs, a, b, c)
+  s1 = gaussian(xs, d, e, f)
+  return s0 + s1
+
+
+def main(xs, ys, fn, ps):
+  plt.figure(figsize=(6, 4))
+  plt.scatter(xs, ys, label='New cases: 2 week avg')
+  xs = list(range(len(ys) * 2))
+  plt.plot(xs, fn(xs, ps[0], ps[1], ps[2], ps[3], ps[4], ps[5]), label='Estimate')
+  plt.legend(loc='best')
+  plt.show()
+
+
 csvfile = 'time_series_covid19_confirmed_global_narrow.csv'
 rows = csv_read(csvfile)
-rows = filter_country(rows, 'Italy')
+rows = filter_country(rows, 'China')
 rows = merge_date(rows)
 rows = diff_value(rows)
 rows = average_value(rows, 14)
-vals = list(rows['Value'])
+ys = list(rows['Value'])
+xs = list(range(len(ys)))
+ps = np.asarray([5000, 60, 2, 5000, 70, 2])
 
-cs = np.asarray([1000, 0, 1])
-l = np.asarray([1, 1, 1])
-cs = gradient_descent(cs, vals, l)
-print(cs)
-# x0 = np.ones(6)
-# x1 = optimize.minimize(lambda x: loss(x, vals), x0)
-# print(x1.x)
-# main(vals, x1.x)
+main(xs, ys, curve, ps)
+ps, ps_cov = optimize.curve_fit(curve, xs, ys, p0=ps)
+main(xs, ys, curve, ps)
