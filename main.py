@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from scipy import optimize
 from matplotlib import pyplot as plt
+from datetime import datetime, timedelta
 import pandas as pd
 import numpy as np
 import math
@@ -76,7 +77,9 @@ def main(xs, ys, fn, ps, country='', estimate=''):
   print()
 
 
-country = 'Italy'
+country = 'US'
+lowvalue = 10
+start_date = datetime.strptime('2020-01-22', '%Y-%m-%d')
 csvfile = 'time_series_covid19_confirmed_global_narrow.csv'
 rows = csv_read(csvfile)
 rows = filter_country(rows, country)
@@ -90,3 +93,9 @@ ps = np.asarray([5000, 60, 2, 5000, 70, 2])
 main(xs, ys, curve, ps, country, 'Initial')
 ps, ps_cov = optimize.curve_fit(curve, xs, ys, p0=ps)
 main(xs, ys, curve, ps, country, 'Estimate')
+for x in range(len(xs), 10*len(xs)):
+  v = curve([x], ps[0], ps[1], ps[2], ps[3], ps[4], ps[5])
+  if v[0] < lowvalue:
+    end_date = start_date + timedelta(days=x)
+    print('low cases', int(v[0]), 'on', end_date)
+    break
