@@ -74,22 +74,28 @@ def curve(xs, a, b, c, d, e, f):
   s1 = gaussian(xs, d, e, f)
   return s0 + s1
 
-def main(xs, ys, fn, ps):
+def main(xs, ys, fn, ps, country='', estimate=''):
   plt.figure(figsize=(6, 4))
-  plt.scatter(xs, ys, label='New cases: 2 week avg')
+  plt.scatter(xs, ys, label=country+' 2-week cases')
   zs = fn(xs, ps[0], ps[1], ps[2], ps[3], ps[4], ps[5])
   loss = np.sum((ys - zs) ** 2)
   loss_str = np.format_float_scientific(loss, unique=False, exp_digits=2,precision=3)
   xs = list(range(len(ys) * 2))
   zs = fn(xs, ps[0], ps[1], ps[2], ps[3], ps[4], ps[5])
-  plt.plot(xs, zs, label='Estimate, loss: '+loss_str)
+  total = int(np.sum(np.clip(ys, 0, None)))
+  print('Current total cases:', total)
+  total = int(np.sum(np.clip(zs, 0, None)))
+  print(estimate+' total cases:', total)
+  plt.plot(xs, zs, label=estimate+', loss: '+loss_str)
   plt.legend(loc='best')
   plt.show()
+  print()
 
 
+country = 'Italy'
 csvfile = 'time_series_covid19_confirmed_global_narrow.csv'
 rows = csv_read(csvfile)
-rows = filter_country(rows, 'China')
+rows = filter_country(rows, country)
 rows = merge_date(rows)
 rows = diff_value(rows)
 rows = average_value(rows, 14)
@@ -97,6 +103,6 @@ ys = list(rows['Value'])
 xs = list(range(len(ys)))
 ps = np.asarray([5000, 60, 2, 5000, 70, 2])
 
-main(xs, ys, curve, ps)
+main(xs, ys, curve, ps, country, 'Initial')
 ps, ps_cov = optimize.curve_fit(curve, xs, ys, p0=ps)
-main(xs, ys, curve, ps)
+main(xs, ys, curve, ps, country, 'Estimate')
