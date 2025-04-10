@@ -72,7 +72,6 @@ functions), representing 2 possible effects.
 ![us-2](docs/us-2.png)
 
 ![us-3](docs/us-3.png)
-
-
+![](https://ga-beacon.deno.dev/G-G1E8HNDZYY:v51jklKGTLmC3LAZ4rJbIQ/github.com/moocf/covid19-estimate.python)
 
 [humdata.org]: https://data.humdata.org/dataset/novel-coronavirus-2019-ncov-cases
